@@ -1,0 +1,141 @@
+﻿<UserControl x:Class="Regexer.Views.MainPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"      
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="600"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:behavior="clr-namespace:Regexer.Behavior"
+             xmlns:model="clr-namespace:Regexer.Model"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:regex="clr-namespace:System.Text.RegularExpressions;assembly=System"
+             AllowDrop="True"
+             behavior:FileDrop.Command="{Binding FileDropCommand}">
+    <d:DesignerProperties.DesignStyle>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="LightGray"/>
+        </Style>
+    </d:DesignerProperties.DesignStyle>
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="RegexType" MethodName="GetValues"
+                            ObjectType="{x:Type model:RegexType}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:RegexType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Vertical">
+            <DockPanel LastChildFill="True">
+                <TextBlock DockPanel.Dock="Left" Text="Regex:"></TextBlock>
+                <Button DockPanel.Dock="Right" MinWidth="50"
+                        Command="{Binding ExecRegex}">OK</Button>
+                <TextBox DockPanel.Dock="Left"
+                         Text="{Binding RegexText,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </DockPanel>
+
+            <Expander Header="Options"
+                      IsExpanded="True"
+                      >
+                <DockPanel LastChildFill="True">
+                    <GroupBox Header="Mode">
+                        <DockPanel LastChildFill="True" MinWidth="100"
+                                   VerticalAlignment="Center">
+                            <TextBlock DockPanel.Dock="Left" Text="Type:"/>
+                            <ComboBox DockPanel.Dock="Right"
+                                      ItemsSource="{Binding Source={StaticResource ResourceKey=RegexType}}"
+                                      SelectedValue="{Binding SelectedRegexType}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding SelectedRegexTypeChanged }"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </DockPanel>
+                    </GroupBox>
+                    <GroupBox Header="Regex Lines">
+                        <StackPanel Orientation="Horizontal" 
+                                    VerticalAlignment="Center">
+                            <RadioButton Content="Single"
+                                         Command="{Binding SelectedRegexLinesChanged}"                                         
+                                         CommandParameter="{x:Static regex:RegexOptions.Singleline}"/>
+                            <RadioButton Content="Multi" IsChecked="True"
+                                         Command="{Binding SelectedRegexLinesChanged}"
+                                         CommandParameter="{x:Static regex:RegexOptions.Multiline}"/>
+
+                        </StackPanel>
+                        
+                    </GroupBox>
+                    <GroupBox Header="Replace">
+                        <DockPanel LastChildFill="True">
+                            <TextBlock DockPanel.Dock="Left" Text="Regex:"></TextBlock>
+                            <Button DockPanel.Dock="Right" MinWidth="50"
+                        Command="{Binding ExecReplace}">Replace</Button>
+                            <TextBox DockPanel.Dock="Left"
+                         Text="{Binding RegexReplaceText,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                        </DockPanel>
+                    </GroupBox>
+                    
+                </DockPanel>
+                
+            </Expander>
+            
+            <!--<DockPanel LastChildFill="True">
+                <TextBlock DockPanel.Dock="Left" Text="Result:"></TextBlock>
+                <TextBlock DockPanel.Dock="Left" Text="{Binding RegexResult}" ></TextBlock>
+            </DockPanel>
+            <StackPanel>
+                <Button Content="Action"
+                        Command="{Binding ExecRegexCommand}">                    
+                </Button>
+            </StackPanel>-->
+
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
+            <Grid Grid.Column="0">
+                <DockPanel LastChildFill="True">
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="Source Text"></TextBlock>
+                    <Button DockPanel.Dock="Bottom"
+                            Content="Paste Clipboard"
+                            Command="{Binding PasteClipBoard}">
+                    </Button>                    
+                    <TextBox IsReadOnly="True"
+                             Text="{Binding SourceText}"></TextBox>
+                </DockPanel>
+            </Grid>
+            <Grid Grid.Column="2">
+                <DockPanel LastChildFill="True">
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="Matched Text"></TextBlock>
+                    <Button DockPanel.Dock="Bottom"
+                            Content="Copy Clipboard"
+                            Command="{Binding CopyClipBoard}">
+                    </Button>
+                    <Expander DockPanel.Dock="Bottom"
+                              Header="Result">
+                        <TextBox IsReadOnly="True"
+                                 Text="{Binding MatchedResultText}">                            
+                        </TextBox>
+                    </Expander>
+                    <TextBox IsReadOnly="True"
+                             Text="{Binding MatchedText}"></TextBox>
+                </DockPanel>
+            </Grid>
+
+        </Grid>
+            
+    </Grid>
+</UserControl>
