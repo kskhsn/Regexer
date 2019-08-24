@@ -14,6 +14,7 @@ namespace Regexer.Model
         IsMatch,
         Match,
         Matches,
+        Replce,
     }
 
 
@@ -361,6 +362,40 @@ namespace Regexer.Model
             }
         }
 
+    }
+
+    public class RexReplace : RexMatches
+    {
+        string _input;
+
+        public RexReplace(string pattern, RegexOptions options) : base(pattern, options)
+        {
+        }
+
+        public override bool Match(string input)
+        {
+            var isSuccess = base.Match(input);
+            if (isSuccess)
+            {
+                this._input = input;
+            }
+
+            return isSuccess;
+        }
+
+
+        public override string GetReplaceResult(string replaceFormat)
+        {
+
+            if (this.isMatch)
+            {
+                return this.regex.Replace(this._input, replaceFormat);
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
     }
 
 

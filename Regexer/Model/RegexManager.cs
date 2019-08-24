@@ -106,6 +106,8 @@ namespace Regexer.Model
                         return new RexMatch(this.Pattern, this.Options);
                     case RegexType.Matches:
                         return new RexMatches(this.Pattern, this.Options);
+                    case RegexType.Replce:
+                        return new RexReplace(this.Pattern, this.Options);
                     case RegexType.Unknown:
                     default:
                         throw new ArgumentException();
