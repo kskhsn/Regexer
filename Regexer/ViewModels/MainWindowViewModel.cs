@@ -19,8 +19,6 @@ namespace Regexer.ViewModels
         {
             _regionManager = regionManager;
             _regionManager.Regions.CollectionChanged += Regions_CollectionChanged;
-
-
         }
 
         private void Regions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

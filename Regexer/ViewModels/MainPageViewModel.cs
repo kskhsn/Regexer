@@ -73,6 +73,13 @@ namespace Regexer.ViewModels
             set { SetProperty(ref _RegexReplaceText, value); }
         }
 
+        private bool _IsResultExpaneded;
+        public bool IsResultExpaneded
+        {
+            get { return _IsResultExpaneded; }
+            set { SetProperty(ref _IsResultExpaneded, value); }
+        }
+
 
         public MainPageViewModel()
         {
@@ -80,8 +87,7 @@ namespace Regexer.ViewModels
             this.SelectedRegexType = RegexType.Matches;
             this.RegexManager.SetRegexType(this.SelectedRegexType);
             this.RegexManager.SetMultilineOption(RegexOptions.Multiline);
-
-
+            this.IsResultExpaneded = false;
         }
 
         private DelegateCommand _ExecRegex;
@@ -148,8 +154,9 @@ namespace Regexer.ViewModels
                     else
                     {
                         this.MatchedText = string.Empty;
-                        this.MatchedResultText = "failed";
+                        this.MatchedResultText = $"Faild.\r\n{this.RegexManager.ErrorMessage}"; 
                     }
+                    this.IsResultExpaneded = true;
                 }
 
                 var isSuccess = await this.RegexManager.ExecMatchAsync(this.SourceText);

@@ -112,8 +112,7 @@
                             Content="Paste Clipboard"
                             Command="{Binding PasteClipBoard}">
                     </Button>                    
-                    <TextBox IsReadOnly="True"
-                             Text="{Binding SourceText}"></TextBox>
+                    <TextBox Text="{Binding SourceText}"></TextBox>
                 </DockPanel>
             </Grid>
             <Grid Grid.Column="2">
@@ -125,7 +124,8 @@
                             Command="{Binding CopyClipBoard}">
                     </Button>
                     <Expander DockPanel.Dock="Bottom"
-                              Header="Result">
+                              Header="Result"
+                              IsExpanded="{Binding IsResultExpaneded}">
                         <TextBox IsReadOnly="True"
                                  Text="{Binding MatchedResultText}">                            
                         </TextBox>

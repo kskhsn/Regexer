@@ -18,6 +18,8 @@ namespace Regexer.Model
 
         public RegexOptions Options { get; private set; }
 
+        public string ErrorMessage { get; private set; }
+
         public RegexManager()
         {
 
@@ -25,13 +27,24 @@ namespace Regexer.Model
 
         public bool ExecMatch(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                this.ErrorMessage = "input is null or whitespace.";
+                return false;
+            }
+
             var result = this.Rex?.Match(input);
             if (result.HasValue)
             {
+                if (!result.Value)
+                {
+                    this.ErrorMessage = "regex result is none.";
+                }
                 return result.Value;
             }
             else
             {
+                this.ErrorMessage = "regex result is null.";
                 return false;
             }
         }
@@ -77,24 +90,31 @@ namespace Regexer.Model
         {
             if(this.Rex==null || this.Rex.NeedUpdate(this.Type, this.Pattern,this.Options))
             {
-                this.Rex = this.Creater();
-               
+                this.Rex = this.Creater();               
             }
         }
 
         private IRex Creater()
         {
-            switch (this.Type)
+            try
             {
-                case RegexType.IsMatch:
-                    return new RexIsMatch(this.Pattern, this.Options);
-                case RegexType.Match:
-                    return new RexMatch(this.Pattern, this.Options);
-                case RegexType.Matches:
-                    return new RexMatches(this.Pattern, this.Options);
-                case RegexType.Unknown:
-                default:
-                    throw new ArgumentException();
+                switch (this.Type)
+                {
+                    case RegexType.IsMatch:
+                        return new RexIsMatch(this.Pattern, this.Options);
+                    case RegexType.Match:
+                        return new RexMatch(this.Pattern, this.Options);
+                    case RegexType.Matches:
+                        return new RexMatches(this.Pattern, this.Options);
+                    case RegexType.Unknown:
+                    default:
+                        throw new ArgumentException();
+                }
+            }
+            catch(Exception ex)
+            {
+                this.ErrorMessage = ex.Message;
+                return null;
             }
         }
 
