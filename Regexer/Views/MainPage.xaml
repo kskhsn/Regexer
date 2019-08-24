@@ -112,7 +112,8 @@
                             Content="Paste Clipboard"
                             Command="{Binding PasteClipBoard}">
                     </Button>                    
-                    <TextBox Text="{Binding SourceText}"></TextBox>
+                    <TextBox Text="{Binding SourceText}"
+                             AcceptsReturn="True"></TextBox>
                 </DockPanel>
             </Grid>
             <Grid Grid.Column="2">
