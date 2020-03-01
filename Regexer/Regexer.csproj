@@ -5,6 +5,10 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>Regexer</AssemblyName>
     <RootNamespace>Regexer</RootNamespace>
+    <StartupObject>Regexer.App</StartupObject>
+    <ApplicationIcon />
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>bin\Debug\</OutputPath>

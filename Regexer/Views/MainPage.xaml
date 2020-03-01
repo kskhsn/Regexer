@@ -78,7 +78,9 @@
                             <Button DockPanel.Dock="Right" MinWidth="50"
                         Command="{Binding ExecReplace}">Replace</Button>
                             <TextBox DockPanel.Dock="Left"
-                         Text="{Binding RegexReplaceText,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                    Text="{Binding RegexReplaceText,UpdateSourceTrigger=PropertyChanged}"
+                                    TextWrapping="Wrap"
+                                    AcceptsReturn="True"></TextBox>
                         </DockPanel>
                     </GroupBox>
                     
@@ -132,6 +134,7 @@
                         </TextBox>
                     </Expander>
                     <TextBox IsReadOnly="True"
+                             AcceptsReturn="True"
                              Text="{Binding MatchedText}"></TextBox>
                 </DockPanel>
             </Grid>

@@ -349,10 +349,18 @@ namespace Regexer.Model
         {
             if (this.isMatch)
             {
+                //replaceFormat = replaceFormat.Replace("<<br>>", @"\r\n");
+
                 StringBuilder sb = new StringBuilder();
                 foreach (var match in this.Result)
                 {
-                    sb.AppendLine(match.Result(replaceFormat));
+                    var temp = match.Result(replaceFormat).Split("<<br>>");
+                    foreach(var item in temp)
+                    {
+                        sb.AppendLine(item);
+                    }
+
+                    //sb.AppendLine(match.Result(replaceFormat));
                 }
                 return sb.ToString();
             }
